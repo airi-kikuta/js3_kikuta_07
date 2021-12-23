@@ -1,0 +1,113 @@
+body {
+    font-family: sans-serif;
+    background-color: #000;
+}
+
+
+header {
+    margin: 60px auto 40px;
+    text-align: center;
+}
+
+.header_text {
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+img {
+    width: 10%;
+}
+
+
+.video {
+    width: 600px;
+    display: flex;
+    margin: 50px auto;
+
+}
+
+
+.review {
+    width: 600px;
+    margin: auto;
+
+}
+
+input {
+    padding: 10px;
+    color: #000;
+    width: 130px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 0 0 10px;
+}
+
+
+select {
+    border-color: black;
+    background-color: black;
+    color: #fff;
+    font-size: 15px;
+    margin: 0 6px 8px;
+}
+
+textarea {
+    width: 530px;
+    padding: 10px;
+    height: 100px;
+    color: #000;
+    border-radius: 10px;
+
+}
+
+.send {
+    width: 490px;
+    font-size: 25px;
+    color: RGB(228, 8, 21);
+    text-align: right;
+    margin: 10px auto 20px;
+}
+
+.send:hover{
+    box-shadow: none;
+    transform: scale(1, 1) translateY(4px);
+  }
+
+
+
+.output {
+    color: white;
+    font-size: 12px;
+}
+
+
+.output_wrapper {
+    width: 600px;
+    padding: 10px;
+    margin: auto;
+    color: white;
+
+}
+
+.output {
+    align-items: center;
+
+}
+
+p {
+    color: gray;
+    margin: 0 0 4px;
+}
+
+.user {
+    font-weight: bold;
+}
+
+.score {
+    color: RGB(228, 8, 21);
+}
+
+#delete {
+    color: gray;
+}

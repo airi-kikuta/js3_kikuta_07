@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>netflix review</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/b506f38d23.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <header>
+        <img src="img/nf.png" alt="">
+        <p class="header_text">あの映画、どうだった？</p>
+
+
+    </header>
+
+    
+
+    <div class="video">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/sn9IhRxr8rQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+
+        <div class="review">
+            
+                <input type="user" id="user" placeholder=" お名前">
+                <select id="score">
+                    <option value="★★★">★★★</option>
+                    <option value="★★☆">★★</option>
+                    <option value="★☆☆">★</option>
+                </select>
+            
+                <textarea id="text" cols="70" rows="3" placeholder=" コメント"></textarea>
+                <div class="send">
+                    <i id="send" class="fas fa-paper-plane"></i>
+                </div>
+            
+
+        </div>
+
+            
+
+        </div>
+            <div id="output" class="output"></div>
+        
+       
+    
+    <!-- jQueryのCDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- firebaseのURL -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+
+
+        // 追加 1 
+        import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved }
+        from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        
+         const firebaseConfig = {
+         apiKey: "AIzaSyBM85fJHxfKwaMNk1yQbzdHUGCq3enp0gU",
+         authDomain: "gsdemo-8f4a5.firebaseapp.com",
+         projectId: "gsdemo-8f4a5",
+         storageBucket: "gsdemo-8f4a5.appspot.com",
+         messagingSenderId: "578869423207",
+         appId: "1:578869423207:web:4d7e9725992661f3a3f8c2"
+         };
+        
+         const app = initializeApp(firebaseConfig); //firebaseにアクセス
+        
+        // 追加 2 
+        const db  = getDatabase(app); //realtimeDBに接続
+        const dbRef = ref(db,"chat"); //DB内の"chat"を使う
+
+ 
+
+        // 送信 -------------------------------------------------------------------
+        $('#send').on('click',function(){
+        //   const user = $('#user').val();
+        //   const text = $('#text').val();
+        //   alert(user + text);
+
+        const msg = {
+            user : $('#user').val(),
+            text : $('#text').val(),
+            score : $('#score').val(),
+        }
+
+        const newPostRef = push(dbRef); // DBにユニークKEYを生成 
+        set(newPostRef,msg); // "chat"にユニークKEYを付けてオブジェクトを登録
+        });
+
+
+
+        // 受信 -------------------------------------------------------------------
+        onChildAdded(dbRef,function(data) { // DBから子要素を呼び出す
+            const msg = data.val();
+            const key = data.key;
+            console.log(key);
+
+            // let h = '<p>'; //Pタグに、
+            //     h += msg.user; // msgとuserを付けて、 
+            //     h += '<br>'; // 改行して、 
+            //     h += msg.score; // msgとtextを付けて、
+            //     h += '<br>'; // 改行して、 
+            //     h += msg.text; // msgとtextを付けて、
+            //     h += '</p>'; // Pタグを閉じて、
+
+            // テンプレートリテラルにすると、
+            let h = ` 
+
+            <div class="output_wrapper" data-key=${key}>  
+                <div class="output">
+                  <p class="user">${msg.user}</p>
+                  <p class="score">${msg.score}</p>
+                  <p class="text">${msg.text}</p>
+                </div>
+                <i id="delete" class="fas fa-trash-alt"></i>
+             </div>`;
+
+             $("#output").append(h);
+        });
+
+        // 削除
+
+        $(document).on("click","#delete",function(){  // htmlで作ったものはコレで操作
+        // vは鍵
+        let v = $(this).parent().data().key; // 親要素、つまりmassegeの上側のkeyを取得
+        remove(ref(db, 'chat/' + v));
+
+        // htmlを消す
+        $(this).parent().remove();
+    });
+
+
+
+
+// 変数名.鍵
+
+        </script>
+
+
+
+
+    
+</body>
+</html>
